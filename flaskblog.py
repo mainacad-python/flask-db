@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, flash, redirect
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, NoteForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
@@ -36,6 +36,17 @@ def login():
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
+
+
+@app.route("/create_note", methods=['GET', "POST"])
+def create_note():
+    form = NoteForm()
+    if form.validate_on_submit():
+        flash('Success')
+        return redirect(url_for('home'))
+
+    return render_template('create_note.html', title='Create note', form=form)
+
 
 
 @app.route("/about")
